@@ -60,3 +60,10 @@ def query():
 if __name__ == "__main__":
     # for local testing: python app.py
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+
+
+from flask import Flask, request, jsonify
+from flask_cors import CORS  # new
+
+app = Flask(__name__)
+CORS(app)  # new: allow all origins
