@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 import os
 from pathlib import Path
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # add here
 
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.llms.groq import Groq
@@ -42,6 +43,7 @@ query_engine = index.as_query_engine()
 # ---------- Flask app ----------
 
 app = Flask(__name__)
+CORS(app)  # enable CORS on this app
 
 @app.route("/health", methods=["GET"])
 def health():
@@ -58,12 +60,4 @@ def query():
     return jsonify({"answer": str(resp)})
 
 if __name__ == "__main__":
-    # for local testing: python app.py
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
-
-
-from flask import Flask, request, jsonify
-from flask_cors import CORS  # new
-
-app = Flask(__name__)
-CORS(app)  # new: allow all origins
